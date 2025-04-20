@@ -1,0 +1,61 @@
+\documentclass[12pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{enumitem}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection.}{1em}{}
+
+\title{Network Games and Agricultural Collectivization in China}
+\author{Xinkai Xu, Liming Lin, Zihao Liu}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\onehalfspacing
+
+\begin{abstract}
+This project uses the framework of network games to analyze incentive structures and behavioral dynamics in the context of Chinese agricultural collectivization during the 1960s and 1970s. Starting from a baseline model of small reciprocal production teams, we incrementally build up to more complex systems, incorporating key historical policies and institutional features, such as exit options, quota systems, disaster shocks, and exemplary model households.
+\end{abstract}
+
+\section{Introduction}
+Brief historical background on agricultural collectivization in China. Motivation for using network games as a modeling tool. Overview of theoretical approach and summary of contributions.
+
+\section{Base Model: Small Reciprocal Groups}
+\subsection{Complete Network Structure}
+We begin with a simple complete network representing a small production team in which each household observes and interacts with all others. All households are symmetric and must participate.
+
+\subsection{Effort and Distribution Rules}
+We consider two distribution mechanisms: egalitarian income sharing and workpoint-based income allocation. Households choose effort levels to maximize individual utility under each system.
+
+\section{Extension 1: Exit Option}
+\subsection{Network with Forced Participation}
+As in the base case, all households must participate in collective production.
+
+\subsection{Network with Voluntary Participation}
+Households are allowed to opt out of collective labor. We examine how the introduction of exit changes equilibrium effort and participation rates.
+
+\section{Extension 2: Large Networks with Incomplete Information}
+We move to a large network setting where each household only knows its own number of neighbors (degree) and forms beliefs over others' behavior. The model assumes strategic complements or substitutes depending on the distribution mechanism and social context.
+
+\section{Extension 3: State Quota System (统购统销)}
+We incorporate the unified purchase and sale policy under which the government sets a fixed quota and price for grain procurement. We analyze how lower and upper bounds on income affect household incentives and collective productivity.
+
+\section{Extension 4: Threshold Public Goods Game}
+The collective faces a minimum production threshold below which no benefits are received. The good (e.g., grain surplus for sale) is only provided if total contributions exceed this threshold. This setup introduces coordination challenges and free-riding risks.
+
+\section{Extension 5: Natural Disaster Shock}
+We introduce asymmetric shocks that affect only part of the network (e.g., drought in one commune). The government increases procurement targets from unaffected communes, creating strain under fixed prices. We study the trade-offs in raising quotas versus raising prices, and how these affect local effort and morale.
+
+\section{Extension 6: Model Households (Superstars)}
+We model highly visible but powerless households whose high effort levels influence others through social norms and imitation, rather than through redistribution authority. This extension is implemented using a scale-free network with behavioral spillovers from the central node.
+
+\section{Conclusion}
+Summary of insights from each model extension. Discussion of historical plausibility, policy relevance, and potential directions for further research.
+
+\end{document}
