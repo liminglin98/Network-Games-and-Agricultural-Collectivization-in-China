@@ -6,7 +6,7 @@
 \usepackage{titlesec}
 \usepackage{setspace}
 \usepackage{enumitem}
-
+\usepackage{natbib}
 \titleformat{\section}{\normalfont\Large\bfseries}{\thesection.}{1em}{}
 \titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection.}{1em}{}
 
@@ -24,8 +24,7 @@ This project uses the framework of network games to analyze incentive structures
 \end{abstract}
 
 \section{Introduction}
-Brief historical background on agricultural collectivization in China. Motivation for using network games as a modeling tool. Overview of theoretical approach and summary of contributions.
-
+Agricultural collectivization has been one of the most prominent and controversial policies in modern China. Previous studies (\cite{chinnDiligenceLazinessChinese1980, nitzanDiligenceLazinessChinese1987}) have started to use game theory to analyze the dynamics with simple prisoner's dilemma model and extensions to include assymetric and continuous strategy. This project aims to extend this framework by incorporating network games within the commune system and also signaling games between commune leaders and their superiors. We hope this project can shed light into the interactions not just among households but also between local and central government, which is still a crucial topic for China's economic development today.
 \section{Base Model: Small Reciprocal Groups}
 \subsection{Complete Network Structure}
 We begin with a simple complete network representing a small production team in which each household observes and interacts with all others. All households are symmetric and must participate.
@@ -33,29 +32,31 @@ We begin with a simple complete network representing a small production team in 
 \subsection{Effort and Distribution Rules}
 We consider two distribution mechanisms: egalitarian income sharing and workpoint-based income allocation. Households choose effort levels to maximize individual utility under each system.
 
-\section{Extension 1: Exit Option}
+\section{Small-Scale Network}
 \subsection{Network with Forced Participation}
 As in the base case, all households must participate in collective production.
 
 \subsection{Network with Voluntary Participation}
 Households are allowed to opt out of collective labor. We examine how the introduction of exit changes equilibrium effort and participation rates.
 
-\section{Extension 2: Large Networks with Incomplete Information}
+\section{Large Networks with Incomplete Information}
 We move to a large network setting where each household only knows its own number of neighbors (degree) and forms beliefs over others' behavior. The model assumes strategic complements or substitutes depending on the distribution mechanism and social context.
 
-\section{Extension 3: State Quota System (统购统销)}
-We incorporate the unified purchase and sale policy under which the government sets a fixed quota and price for grain procurement. We analyze how lower and upper bounds on income affect household incentives and collective productivity.
+\section{State Quota System (Tonggou)}
+We incorporate the unified purchase and sale policy under which the government sets a fixed quota and price for grain procurement. We analyze how upper bounds on income affect household incentives and collective productivity.
 
-\section{Extension 4: Threshold Public Goods Game}
+\section{Threshold Public Goods Game}
 The collective faces a minimum production threshold below which no benefits are received. The good (e.g., grain surplus for sale) is only provided if total contributions exceed this threshold. This setup introduces coordination challenges and free-riding risks.
 
-\section{Extension 5: Natural Disaster Shock}
-We introduce asymmetric shocks that affect only part of the network (e.g., drought in one commune). The government increases procurement targets from unaffected communes, creating strain under fixed prices. We study the trade-offs in raising quotas versus raising prices, and how these affect local effort and morale.
+\section{Natural Disaster Shock}
+We introduce a natural disaster shock to mimic historical events like the Great Famine around 1960. The shock directly affects some parts of the country while the unaffected areas were influenced by the fact that the government wanted them to contribute more to the famine areas. There was potentially a signaling game between the local commune leaders and upper level government. Specifically, the upper level government sent costless signals to local commune leaders to encourage them to contribute more in exchange of future promotions, while the local commune leaders need to decideds whether to send costly signals by reducing local consumption to show their loyalty to the upper level government.
 
-\section{Extension 6: Model Households (Superstars)}
+\section{Model Households (Superstars)}
 We model highly visible but powerless households whose high effort levels influence others through social norms and imitation, rather than through redistribution authority. This extension is implemented using a scale-free network with behavioral spillovers from the central node.
 
 \section{Conclusion}
 Summary of insights from each model extension. Discussion of historical plausibility, policy relevance, and potential directions for further research.
 
+\bibliographystyle{plainnat} % or abbrvnat, or plain
+\bibliography{ref}  
 \end{document}
