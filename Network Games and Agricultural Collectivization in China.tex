@@ -20,11 +20,11 @@
 \onehalfspacing
 
 \begin{abstract}
-This project uses the framework of network games to analyze incentive structures and behavioral dynamics in the context of Chinese agricultural collectivization during the 1960s and 1970s. Starting from a baseline model of small reciprocal production teams, we incrementally build up to more complex systems, incorporating key historical policies and institutional features, such as exit options, quota systems, disaster shocks, and exemplary model households.
+This project uses the framework of network games to analyze incentive structures and behavioral dynamics in the context of Chinese agricultural collectivization during the 1960s and 1970s. Starting from a baseline model of small reciprocal production teams, we incrementally build up to more complex systems, incorporating key historical policies and institutional features, such as exit options, quota systems. In addition, we also explore the role of signaling games between local commune leaders and upper-level government officials, particularly in the context of natural disasters. Based on our models, we find that...
 \end{abstract}
 
 \section{Introduction}
-Agricultural collectivization has been one of the most prominent and controversial policies in modern China. Previous studies (\cite{chinnDiligenceLazinessChinese1980, nitzanDiligenceLazinessChinese1987}) have started to use game theory to analyze the dynamics with simple prisoner's dilemma model and extensions to include assymetric and continuous strategy. This project aims to extend this framework by incorporating network games within the commune system and also signaling games between commune leaders and their superiors. We hope this project can shed light into the interactions not just among households but also between local and central government, which is still a crucial topic for China's economic development today.
+Agricultural collectivization has been one of the most prominent and controversial policies in modern China. Previous studies (\cite{chinnDiligenceLazinessChinese1980, nitzanDiligenceLazinessChinese1987}) have started to use game theory to analyze the dynamics with simple prisoner's dilemma model and extensions to include assymetric and continuous strategy. This project aims to extend this framework by incorporating network games within the communes and also signaling games between commune leaders and their superiors. We hope this project can shed light into the interactions not just among households but also between local and central government, which is still a crucial topic for China's economic development today.
 \section{Base Model: Small Reciprocal Groups}
 \subsection{Complete Network Structure}
 We begin with a simple complete network representing a small production team in which each household observes and interacts with all others. All households are symmetric and must participate.
@@ -37,21 +37,21 @@ We consider two distribution mechanisms: egalitarian income sharing and workpoin
 As in the base case, all households must participate in collective production.
 
 \subsection{Network with Voluntary Participation}
-Households are allowed to opt out of collective labor. We examine how the introduction of exit changes equilibrium effort and participation rates.
+Households are allowed to opt out of collective labor and they will produce a fixed amount of food, say the average. We examine how the introduction of an exit option changes equilibrium effort and participation rates.
 
 \section{Large Networks with Incomplete Information}
 We move to a large network setting where each household only knows its own number of neighbors (degree) and forms beliefs over others' behavior. The model assumes strategic complements or substitutes depending on the distribution mechanism and social context.
 
 \section{State Quota System (Tonggou)}
-We incorporate the unified purchase and sale policy under which the government sets a fixed quota and price for grain procurement. We analyze how upper bounds on income affect household incentives and collective productivity.
+We incorporate the unified purchase and sale policy under which the government sets a fixed quota and price for grain procurement. We analyze how this upper bounds on production and thus income affect household incentives and collective productivity.
 
 \section{Threshold Public Goods Game}
-The collective faces a minimum production threshold below which no benefits are received. The good (e.g., grain surplus for sale) is only provided if total contributions exceed this threshold. This setup introduces coordination challenges and free-riding risks.
+In addition to the upper bounds for unified procourment, the communes also face minimum production threshold below which no output will be sold and thus receive no income. Commune members are only renumerated if the total contribution of the commune exceeds the threshold. This setup introduces coordination challenges and free-riding risks.
 
 \section{Natural Disaster Shock}
 We introduce a natural disaster shock to mimic historical events like the Great Famine around 1960. The shock directly affects some parts of the country while the unaffected areas were influenced by the fact that the government wanted them to contribute more to the famine areas. There was potentially a signaling game between the local commune leaders and upper level government. Specifically, the upper level government sent costless signals to local commune leaders to encourage them to contribute more in exchange of future promotions, while the local commune leaders need to decideds whether to send costly signals by reducing local consumption to show their loyalty to the upper level government.
 
-\section{Model Households (Superstars)}
+\section{Model Households (Superstars)?}
 We model highly visible but powerless households whose high effort levels influence others through social norms and imitation, rather than through redistribution authority. This extension is implemented using a scale-free network with behavioral spillovers from the central node.
 
 \section{Conclusion}
