@@ -7,6 +7,8 @@
 \usepackage{setspace}
 \usepackage{enumitem}
 \usepackage{natbib}
+\usepackage{tikz}
+\usetikzlibrary{trees}
 \titleformat{\section}{\normalfont\Large\bfseries}{\thesection.}{1em}{}
 \titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection.}{1em}{}
 
@@ -46,11 +48,74 @@ We move to a large network setting where each household only knows its own numbe
 We incorporate the unified purchase and sale policy under which the government sets a fixed quota and price for grain procurement. We analyze how this upper bounds on production and thus income affect household incentives and collective productivity.
 
 \section{Threshold Public Goods Game}
-In addition to the upper bounds for unified procourment, the communes also face minimum production threshold below which no output will be sold and thus receive no income. Commune members are only renumerated if the total contribution of the commune exceeds the threshold. This setup introduces coordination challenges and free-riding risks.
+In addition to the upper bounds for unified procourment, the communes also face a minimum production threshold below which no output will be sold and thus receive no income. Commune members are only renumerated if the total contribution of the commune exceeds the threshold. This setup introduces coordination challenges and free-riding risks.
 
 \section{Natural Disaster Shock}
-We introduce a natural disaster shock to mimic historical events like the Great Famine around 1960. The shock directly affects some parts of the country while the unaffected areas were influenced by the fact that the government wanted them to contribute more to the famine areas. There was potentially a signaling game between the local commune leaders and upper level government. Specifically, the upper level government sent costless signals to local commune leaders to encourage them to contribute more in exchange of future promotions, while the local commune leaders need to decideds whether to send costly signals by reducing local consumption to show their loyalty to the upper level government.
-
+We introduce a natural disaster shock to mimic historical events like the Great Famine around 1960. The shock directly affects some parts of the country while the unaffected areas were influenced by the fact that the government wanted them to contribute more to the famine areas. There was potentially a signaling game between the local commune leaders and upper level government. Specifically, the commune leaders 
+\begin{center}
+    \begin{tikzpicture}[
+      grow=right,
+      level distance=25mm,
+      sibling distance=10mm,
+      every node/.style={font=\small, align=center},
+      edge from parent/.style={draw, -latex}
+    ]
+    
+    % Root node
+    \node {Nature}
+      % High productivity branch
+      child [yshift=5em] {node {High}
+        child [yshift=3em] {node {Ambitious}
+          child [yshift=3em] {node {H}
+            child {node {Obs H (+R-L=R,+P)}}
+          }
+          child [yshift=-1.5em] {node {L}
+            child {node {Obs L(+S-X=-X,0)}}
+          }
+        }
+        child [yshift=-3em] {node {Loyalist}
+          child [yshift=3em] {node {H}
+            child {node {Obs H(-R-L=-R,+P)}}
+          }
+          child [yshift=-1.5em] {node {L}
+            child {node {Obs L(+S-X,0)}}
+          }
+        }
+      }
+      % Low productivity branch
+      child [yshift=-5em] {node {Low}
+        child [yshift=3em] {node {Ambitious}
+          child [yshift=3em] {node {H}
+            child {node {Obs H(+R-L,-C)}}
+          }
+          child [yshift=-1.5em] {node {L}
+            child {node {Obs L(+S-X=-X,0)}}
+          }
+        }
+        child [yshift=-3em] {node {Loyalist}
+          child [yshift=3em] {node {H}
+            child {node {Obs H(-R-L,-C)}}
+          }
+          child [yshift=-1.5em] {node {L}
+            child {node {Obs L(+S-X,0)}}
+          }
+        }
+      };
+    
+    \end{tikzpicture}
+    \end{center}
+High: High productivity commune leader\\
+Low: Low productivity commune leader\\   
+Ambitious: Ambitious commune leader who value promotion \\
+Loyalist: Loyalist commune leader who value local interest\\
+H: High contribution signaling\\
+L: Low contribution signaling\\
+L in payoff: cost of high contribution, positive for low type and zero for high type?\\
+R: reward for high contribution and the promotion: positive for ambitious and negative for loyalist\\
+S: reward for low contribution and trust from the commune members: zero for ambitious and positive for loyalist\\
+P: reward for superior to make correct promotion\\
+C: cost of promoting low type commune leader\\
+X: placeholder for punishment for low contribution\\
 \section{Model Households (Superstars)?}
 We model highly visible but powerless households whose high effort levels influence others through social norms and imitation, rather than through redistribution authority. This extension is implemented using a scale-free network with behavioral spillovers from the central node.
 
