@@ -8,6 +8,8 @@
 \usepackage{enumitem}
 \usepackage{natbib}
 \usepackage{tikz}
+\usepackage{amssymb}
+\usepackage{float}
 \usetikzlibrary{trees}
 \titleformat{\section}{\normalfont\Large\bfseries}{\thesection.}{1em}{}
 \titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection.}{1em}{}
@@ -26,99 +28,375 @@ This project uses the framework of network games to analyze incentive structures
 \end{abstract}
 
 \section{Introduction}
-Agricultural collectivization has been one of the most prominent and controversial policies in modern China. Previous studies (\cite{chinnDiligenceLazinessChinese1980, nitzanDiligenceLazinessChinese1987}) have started to use game theory to analyze the dynamics with simple prisoner's dilemma model and extensions to include assymetric and continuous strategy. This project aims to extend this framework by incorporating network games within the communes and also signaling games between commune leaders and their superiors. We hope this project can shed light into the interactions not just among households but also between local and central government, which is still a crucial topic for China's economic development today.
-\section{Base Model: Small Reciprocal Groups}
-\subsection{Complete Network Structure}
-We begin with a simple complete network representing a small production team in which each household observes and interacts with all others. All households are symmetric and must participate.
+Agricultural collectivization has been one of the most prominent and controversial policies in modern China. Previous studies (\cite{chinnDiligenceLazinessChinese1980, nitzanDiligenceLazinessChinese1987}) have started to use game theory to analyze the dynamics with simple prisoner's dilemma model and extensions to include assymetric and continuous strategy. This project aims to extend this framework by incorporating network games within the communes and also signaling games between commune leaders and their superiors. We hope this project can shed light into the interactions not just among households but also between local and central government, which is still a crucial topic for China's economic development today.\\
 
-\subsection{Effort and Distribution Rules}
-We consider two distribution mechanisms: egalitarian income sharing and workpoint-based income allocation. Households choose effort levels to maximize individual utility under each system.
+\section{Base Model: Small-Scale Network}
+Let $I = \{1, 2, \dots, n\}$ denote the set of players, $n > 1$, connected by a network $G$.
 
-\section{Small-Scale Network}
-\subsection{Network with Forced Participation}
-As in the base case, all households must participate in collective production.
+We use matrix $G$ to track the connections in this network.  
+We define $g_{ij} = 1=g_{ji}$ if $i$ and $j$ are linked to each other, and $g_{ij} = 0$ otherwise.  
+We also set $g_{ii} = 0$. The neighborhood of the individual $i$ is the set given by $[ N_i := j \mid g_{ij}] = 1$.
 
-\subsection{Network with Voluntary Participation}
-Households are allowed to opt out of collective labor and they will produce a fixed amount of food, say the average. We examine how the introduction of an exit option changes equilibrium effort and participation rates.
+Therefore, $|N_i|$, the cardinality, which is $\sum_j g_{ij}$, is called the \textbf{degree} of $i$.
 
-\section{Large Networks with Incomplete Information}
+We use the following quadratic utility function to capture the \emph{strategy complementarity}:
+\[
+U_i(x_i, x_{-i}, G_i) = \alpha x_i - \frac{1}{2} x_i^2 + \beta x_i \sum_j g_{ij} x_j,
+\]
+where $\alpha$ is the marginal return to effort $x_i$, and $\beta$ is the strength of strategic interactions.
+
+We assume $\beta > 0$, so that we have
+\[
+\frac{\partial^2 U_i(x_i, x_{-i}, G_i)}{\partial x_i \partial x_j} = \beta g_{ij} > 0,
+\]
+which reflects strategic complementarity in efforts.
+
+In small groups with $n$ players in a network, people know each other well, and it is reasonable to assume network $G$ is a \textbf{complete network} and players have full information.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[height=0.6\textwidth]{small network1.png}
+  \caption{Example of a Small Production Team}
+  \label{fig:small-team}
+\end{figure}
+
+In equilibrium, each agent maximizes their utility. By the FOC, we get:
+\[
+x_i^* = \alpha + \beta \sum_j g_{ij}x_i x_j. \tag{2}
+\]
+
+Since $G$ is a complete network, everyone has the same degree. We assume total effort is  
+\[
+\bar{x} = \frac{1}{n} \sum_i x_i,
+\]
+and so:
+\[
+x_i^* = \alpha + \beta \left( \sum_{j \neq i} x_j^* \right) = \alpha + \beta(n - 1)\bar{x}. \tag{3}
+\]
+
+Assuming symmetry, i.e., $x_i^* = \bar{x}$ for all $i$, we get:
+\[
+x_i^* = \frac{\alpha}{1 - \beta(n - 1)}.
+\]
+
+Then, in a small group, the utility of agent $i$' is given by:
+\[
+\frac{\alpha^2}{\beta + 1 - n\beta} - \frac{1}{2} \left( \frac{\alpha}{(\beta + 1 - n\beta)} \right)^2 + \beta(n - 1) \left( \frac{\alpha}{\beta + 1 - n\beta} \right)^2. \tag{4}
+\]
+
+
+\section{Large Networks}
+\subsection{Large Network with Without Signaling}
+
+Incomplete information about $\beta$ without signals.
+
+We assume $\beta$ takes two possible values: $\beta = \{\beta_l,\beta_h\}$ where $\beta_l < \beta_h$. 
+
+We assume each agent holds a belief for $\beta$.
+
+They share a common prior:
+
+\[
+\mathbb{P}(\beta = \beta_l) = p, \quad \mathbb{P}(\beta = \beta_h) = 1-p
+\]
+
+Therefore we assume there is no communication between players, and the network does not affect the value of $p$.
+
+Then:
+
+\[
+\mathbb{E}[x_i] = \alpha - \sum_{j} g_{ij} \mathbb{E}[x_j] + \mathbb{E}[\beta] p_i
+\]
+
+where:
+
+\[
+\mathbb{E}[\beta] = p \beta_l + (1-p) \beta_h
+\]
+
+Also:
+
+\[
+\mathbb{E}[x_i] = x_i
+\]
+
+Thus:
+
+\[
+\alpha - x_i + \mathbb{E}[\beta] p_i - \sum_{j} g_{ij} x_j = 0
+\]
+
+\vspace{1em}
+
+Thus:
+
+\[
+x_i^* = \alpha + \mathbb{E}[\beta] + \sum_{j=1}^{n} g_{ij} x_j
+\]
+
+where $G$ is the network matrix.
+
+\vspace{1em}
+
+The solution is given by:
+
+\[
+x^* = \alpha (I_n - \mathbb{E}[\beta] G)^{-1} \mathbf{1}
+\]
+
+where $I_n$ is the $n \times n$ identity matrix.
+
+$G$ is the same network matrix as before.
+
+\vspace{1em}
+
+We assume that:
+
+\[
+\mathbb{E}[\beta] \leq \frac{1}{\lambda_{\text{max}}(G)}
+\]
+
+where $\lambda_{\text{max}}(G)$ is the largest eigenvalue of the network $G$.
+
+\vspace{1em}
+
+Moreover:
+
+\[
+(I_n - \mathbb{E}[\beta] p G)^{-1} = P_G \left( I - \mathbb{E}[\beta] p D_G \right)^{-1} P_G^{-1}
+\]
+
+where:
+
+\[
+G = P_G D_G P_G^{-1}
+\]
+
+and $D_G$ is the diagonal matrix of eigenvalues of $G$:
+
+\[
+D_G = 
+\begin{pmatrix}
+\lambda_1 & 0 & \cdots & 0 \\
+0 & \lambda_2 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & \lambda_n
+\end{pmatrix}
+\]
+
+\subsection{Large Network with Signaling}
 We move to a large network setting where each household only knows its own number of neighbors (degree) and forms beliefs over others' behavior. The model assumes strategic complements or substitutes depending on the distribution mechanism and social context.
 
-\section{State Quota System (Tonggou)}
-We incorporate the unified purchase and sale policy under which the government sets a fixed quota and price for grain procurement. We analyze how this upper bounds on production and thus income affect household incentives and collective productivity.
+There are $M \gg n$ players now. In this case, we treat $\beta$ as important information to capture the feature that in large groups, an agent does not know their neighbors' neighborhoods well.  
+This uncertainty introduces people's incomplete information about $\beta$.
 
-\section{Threshold Public Goods Game}
-In addition to the upper bounds for unified procourment, the communes also face a minimum production threshold below which no output will be sold and thus receive no income. Commune members are only renumerated if the total contribution of the commune exceeds the threshold. This setup introduces coordination challenges and free-riding risks.
+We assume that $\beta$ can only take two values, $\beta_L$ or $\beta_H$.  
+All individuals share a common prior:
+\[
+\Pr(\beta = \beta_H) = p, \quad p \in (0,1)
+\]
 
-\section{Natural Disaster Shock}
-We introduce a natural disaster shock to mimic historical events like the Great Famine around 1960. The shock directly affects some parts of the country while the unaffected areas were influenced by the fact that the government wanted them to contribute more to the famine areas. There was potentially a signaling game between the local commune leaders and upper level government. Specifically, the commune leaders 
-\begin{center}
-    \begin{tikzpicture}[
-      grow=right,
-      level distance=25mm,
-      sibling distance=10mm,
-      every node/.style={font=\small, align=center},
-      edge from parent/.style={draw, -latex}
-    ]
-    
-    % Root node
-    \node {Nature}
-      % High productivity branch
-      child [yshift=5em] {node {High}
-        child [yshift=3em] {node {Ambitious}
-          child [yshift=3em] {node {H}
-            child {node {Obs H (+R-L=R,+P)}}
-          }
-          child [yshift=-1.5em] {node {L}
-            child {node {Obs L(+S-X=-X,0)}}
-          }
-        }
-        child [yshift=-3em] {node {Loyalist}
-          child [yshift=3em] {node {H}
-            child {node {Obs H(-R-L=-R,+P)}}
-          }
-          child [yshift=-1.5em] {node {L}
-            child {node {Obs L(+S-X,0)}}
-          }
-        }
-      }
-      % Low productivity branch
-      child [yshift=-5em] {node {Low}
-        child [yshift=3em] {node {Ambitious}
-          child [yshift=3em] {node {H}
-            child {node {Obs H(+R-L,-C)}}
-          }
-          child [yshift=-1.5em] {node {L}
-            child {node {Obs L(+S-X=-X,0)}}
-          }
-        }
-        child [yshift=-3em] {node {Loyalist}
-          child [yshift=3em] {node {H}
-            child {node {Obs H(-R-L,-C)}}
-          }
-          child [yshift=-1.5em] {node {L}
-            child {node {Obs L(+S-X,0)}}
-          }
-        }
-      };
-    
-    \end{tikzpicture}
-    \end{center}
-High: High productivity commune leader\\
-Low: Low productivity commune leader\\   
-Ambitious: Ambitious commune leader who value promotion \\
-Loyalist: Loyalist commune leader who value local interest\\
-H: High contribution signaling\\
-L: Low contribution signaling\\
-L in payoff: cost of high contribution, positive for low type and zero for high type?\\
-R: reward for high contribution and the promotion: positive for ambitious and negative for loyalist\\
-S: reward for low contribution and trust from the commune members: zero for ambitious and positive for loyalist\\
-P: reward for superior to make correct promotion\\
-C: cost of promoting low type commune leader\\
-X: placeholder for punishment for low contribution\\
-\section{Model Households (Superstars)?}
-We model highly visible but powerless households whose high effort levels influence others through social norms and imitation, rather than through redistribution authority. This extension is implemented using a scale-free network with behavioral spillovers from the central node.
+Individuals receive two signals which are not always correct.  
+We define:
+\[
+\Pr(s_i = 1 \mid \beta = \beta_H) = q_1, \quad \Pr(s_i = 1 \mid \beta = \beta_L) = q_2
+\]
+where $s_i = 1$ and $s_i = -1$ denote the event that agent $i$ has received signal $1$ and $-1$, respectively.
 
+Besides, we assume that the network is no longer a complete network.  
+It is given by a graph
+
+
+The idea is that a large network is composed of several small complete networks.  
+And in each small complete network, there is one person who connects with leaders of the large group.
+
+There are three types of players with different degrees.  
+We assume $N = nk + 1$, where $n$ is the number of players in a small group, $k$ is the number of small groups.
+
+\begin{itemize}
+    \item Type 1: $(n-1)$ degrees (internal to small group)
+    \item Type 2: $k$ degrees (one connection to each small group leader)
+    \item Type 3: $n$ degrees (small group leader)
+\end{itemize}
+
+The utility function is the same for three types of players, given by:
+
+\[
+u_i(x_i, x_{-i}) = \alpha_i x_i - \frac{1}{2}x_i^2 + x_i\left( \sum_j g_{ij} x_j \right)
+\]
+
+By the first order condition, we get:
+\[
+x_i = \alpha_i + \sum_j g_{ij} x_j
+\]
+
+We define:
+\[
+b(\beta) = (I - G)^{-1} \alpha(\beta)
+\]
+where $G$ is the network adjacency matrix and $\alpha(\beta)$ is the $n \times 1$ vector of $\alpha_i$.
+
+When agent $i$ receives signal $s_i = l$, his utility function satisfies:
+\[
+\mathbb{E}[u_i(x_i, x_{-i}) \mid s_i = l] = \alpha_i(l) x_i - \frac{1}{2}x_i^2 + x_i \left( \sum_j g_{ij} \mathbb{E}[x_j \mid s_i = l] \right)
+\]
+
+Thus:
+\[
+x_i = \alpha_i(l) + \sum_j g_{ij} \mathbb{E}[x_j \mid s_i = l]
+\]
+
+By the first order condition on $x_i(l)$, we get:
+\[
+x_i(l) = \alpha_i(l) + \sum_j g_{ij} \mathbb{E}[x_j(l)]
+\]
+
+When agent $i$ receives signal $s_i \in \{L\}$, for each possible $j$ we have:
+
+\[
+\mathbb{E}(\beta_j \mid s_i = L) = \frac{1}{p_{\max}} \sum_{t} p_{m} \times \mathbb{P}(\{\beta = \beta_m\} \cap \{s_j = t\} \mid s_i = L)
+\]
+
+We define:
+
+\[
+p_{\max} = \max_{m} \sum_{t} \mathbb{P}(\beta = \beta_m \cap s_j = t \mid s_i = L)
+\]
+
+and
+
+\[
+P_{ij} = \sum_{t} \mathbb{P}(\beta = \beta_m \cap s_j = t \mid s_i = L)
+\quad \text{with} \quad \frac{p_m}{p_{\max}}
+\]
+
+where $p_m$ is $\mathbb{P}(\beta = \beta_m)$ in our code.
+
+$P_{ij}$ represents individual $i$ receives signal $L$ and $j$ receives signal $t$.
+
+Therefore, we can rewrite the first order conditions as follows:
+
+\[
+\alpha - x_i + \mu_i + \sum_{j} \frac{p_{\max}}{s_i} p_{ij} (x_j - x_i) = 0
+\]
+\[
+\alpha - x_i + \mu_i + p_{\max} \sum_{j} \frac{p_{ij}}{s_i} (x_j - x_i) \geq 0
+\]
+
+which can be characterized by:
+
+\[
+\begin{pmatrix}
+x_L \\
+x_H
+\end{pmatrix}
+= \left( -I_n + \frac{p_{\max}}{s_i} (\mathbb{I} \otimes G) \right)^{-1}
+\begin{pmatrix}
+d_{iL} \\
+d_{iH}
+\end{pmatrix}
+\]
+
+where $\Gamma$ is the information matrix, $G$ is the network matrix, $\otimes$ is the Kronecker product of $\Gamma$ and $G$.
+
+$\Gamma$ is given by:
+
+\[
+\Gamma = 
+\begin{pmatrix}
+P_{LL} & P_{LH} \\
+P_{HL} & P_{HH}
+\end{pmatrix}
+\]
+
+Now we are going to calculate information matrix $F$.
+
+We have:
+
+\[
+\mathbb{P}(s_i = t, s_j = t) = \mathbb{P}(s_i = t \mid \beta = \beta_1) \mathbb{P}(s_j = t \mid \beta = \beta_1) \mathbb{P}(\beta = \beta_1) + \mathbb{P}(s_i = t \mid \beta = \beta_2) \mathbb{P}(s_j = t \mid \beta = \beta_2) \mathbb{P}(\beta = \beta_2)
+\]
+
+\[
+\mathbb{P}(s_i = t) = \mathbb{P}(s_i = t \mid \beta = \beta_1) \mathbb{P}(\beta = \beta_1) + \mathbb{P}(s_i = t \mid \beta = \beta_2) \mathbb{P}(\beta = \beta_2)
+\]
+
+\[
+\mathbb{P}(\beta = \beta_1) = q, \quad \mathbb{P}(\beta = \beta_2) = 1-q
+\]
+
+We have:
+
+\[
+\mathbb{P}(\beta = \beta_1 \mid s_i = t, s_j = t) = \frac{\mathbb{P}(s_i = t \cap s_j = t \cap \beta = \beta_1)}{\mathbb{P}(s_i = t \cap s_j = t)}
+\]
+
+\[
+= \frac{\mathbb{P}(s_i = t \mid \beta = \beta_1) \mathbb{P}(s_j = t \mid \beta = \beta_1) \mathbb{P}(\beta = \beta_1)}{\mathbb{P}(s_i = t \cap s_j = t)}
+\]
+
+\[
+= \frac{q(1-p)^2}{2(1-p)(1-(1-p)q)}
+\]
+
+Similarly, we have
+\[
+P(\{\beta = \beta_h\} \cap \{S_j = h\} \mid S_i = l) = \frac{q(1-p)(1-q)}{q(1-p) + (1-q)p}
+\]
+and
+\[
+P(\{\beta = \beta_h\} \cap \{S_j = l\} \mid S_i = l) = \frac{p(1-q)^2}{q(1-p) + (1-q)p}
+\]
+as well as
+\[
+P(\{\beta = \beta_h\} \cap \{S_j = h\} \mid S_i = l) = \frac{(1-q)pq}{q(1-p) + (1-q)p}.
+\]
+
+Now, for \( P(ll) \),
+\begin{align*}
+P(ll) &= P\left( \{\beta = \beta_h\} \cap \{S_j = l\} \mid S_i = l \right) \times \frac{\beta_h}{\beta_h}
++ P\left( \{\beta = \beta_l\} \cap \{S_j = l\} \mid S_i = l \right) \times \frac{\beta_l}{\beta_h} \\
+&= \frac{q^2(1-p)} {q(1-p)+(1-q)p}\times \frac{\beta_l}{\beta_h}
++ \frac{p(1-q)^2}{q(1-p)+(1-q)p}.
+\end{align*}
+
+For \( Plh \),
+\begin{align*}
+Plh &= P\left( \{\beta = \beta_h\} \cap \{S_j = h\} \mid S_i = l \right) \times \frac{\beta_h}{\beta_h}
++ P\left( \{\beta = \beta_l\} \cap \{S_j = h\} \mid S_i = l \right) \times \frac{\beta_l}{\beta_h}\\
+&= \frac{(1-q)pq}{q(1-p) + (1-q)p}\
++ \frac{q(1-q)(1-p)}{q(1-p) + (1-q)p} \times \frac{\beta_l}{\beta_h}.
+\end{align*}
+
+For \( Phl \),
+\begin{align*}
+Phl &= P\left( \{\beta = \beta_h\} \cap \{S_j = l\} \mid S_i = h \right) \times \frac{\beta_h}{\beta_h}
++ P\left( \{\beta = \beta_l\} \cap \{S_j = l\} \mid S_i = h \right) \times \frac{\beta_l}{\beta_h} \\
+&= \frac{qp(1-q)}{qp + (1-q)(1-p)} \
++ \frac{(1-q)(1-p)q}{qp + (1-q)(1-p)} \times \frac{\beta_l}{\beta_h}.
+\end{align*}
+
+For \( Phh \),
+\begin{align*}
+Phh &= P\left( \{\beta = \beta_h\} \cap \{S_j = h\} \mid S_i = h \right) \times \frac{\beta_h}{\beta_h}
++ P\left( \{\beta = \beta_l\} \cap \{S_j = h\} \mid S_i = h \right) \times \frac{\beta_l}{\beta_h} \\
+&= \frac{pq^2}{qp + (1-q)(1-p)}
++ \frac{(1-p)(1-q)^2}{qp + (1-q)(1-p)} \times \frac{\beta_l}{\beta_h}.
+\end{align*}
+
+Therefore, the information matrix is given by
+\[
+\Gamma = 
+\begin{pmatrix}
+Pll & Plh \\
+Phl & Phh
+\end{pmatrix}.
+\]
+
+
+\section{Natural Disaster Shocks}
+\subsection{Shocks in small network}
+\subsection{Shocks in large network}
 \section{Conclusion}
 Summary of insights from each model extension. Discussion of historical plausibility, policy relevance, and potential directions for further research.
 
