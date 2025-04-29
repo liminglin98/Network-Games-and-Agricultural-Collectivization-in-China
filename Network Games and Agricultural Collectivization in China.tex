@@ -24,20 +24,14 @@
 \onehalfspacing
 
 \begin{abstract}
-This project uses the framework of network games to analyze incentive structures and behavioral dynamics in the context of Chinese agricultural collectivization during the 1960s and 1970s. Starting from a baseline model of small reciprocal production teams, we incrementally build up to more complex systems, incorporating key historical policies and institutional features, such as exit options, quota systems. In addition, we also explore the role of signaling games between local commune leaders and upper-level government officials, particularly in the context of natural disasters. Based on our models, we find that...
+This project uses the framework of network games to analyze incentive structures and behavioral dynamics in the context of Chinese agricultural collectivization during the 1960s and 1970s. Starting from a baseline model of small reciprocal production teams, we incrementally build up to more complex systems. Firstly, we expand the network by conecting different teams, allowing for inter-team interactions. Then we add signaling games to capture the information assymetries and communications among agents. Finally, we introduce external shocks to the system, such as natural disaster, to study the reactions of different network structures. And we find that ...
 \end{abstract}
 
 \section{Introduction}
-Agricultural collectivization has been one of the most prominent and controversial policies in modern China. Previous studies (\cite{chinnDiligenceLazinessChinese1980, nitzanDiligenceLazinessChinese1987}) have started to use game theory to analyze the dynamics with simple prisoner's dilemma model and extensions to include assymetric and continuous strategy. This project aims to extend this framework by incorporating network games within the communes and also signaling games between commune leaders and their superiors. We hope this project can shed light into the interactions not just among households but also between local and central government, which is still a crucial topic for China's economic development today.\\
+Agricultural collectivization has been one of the most prominent and controversial policies in modern China. Previous studies (\cite{chinnDiligenceLazinessChinese1980, nitzanDiligenceLazinessChinese1987}) have started to use game theory to analyze the dynamics with simple prisoner's dilemma model and extensions to include assymetric and continuous strategy. This project aims to extend this framework by incorporating network games within and between the communes and among commune leaders and their superiors. We will also calculate the comparative statics for some parameters to investigate the imacts of them. Lastly, we will introduce external shokcs, such as natural disaster, to investigate the responses of different network strcutres under different settings. We hope this project can shed light into the interactions not just among households but also between local and central government, which is still a crucial topic for China's economic development today.\\
 
-\section{Base Model: Small-Scale Network}
-Let $I = \{1, 2, \dots, n\}$ denote the set of players, $n > 1$, connected by a network $G$.
-
-We use matrix $G$ to track the connections in this network.  
-We define $g_{ij} = 1=g_{ji}$ if $i$ and $j$ are linked to each other, and $g_{ij} = 0$ otherwise.  
-We also set $g_{ii} = 0$. The neighborhood of the individual $i$ is the set given by $[ N_i := j \mid g_{ij}] = 1$.
-
-Therefore, $|N_i|$, the cardinality, which is $\sum_j g_{ij}$, is called the \textbf{degree} of $i$.
+\section{Base Model: The Small Network within a Commune}
+Let $I = \{1, 2, \dots, n\}$ denote the set of players, $n > 1$, connected by a network $G$. We use matrix $G$ to track the connections in this network. We define $g_{ij} = 1=g_{ji}$ if $i$ and $j$ are linked to each other, and $g_{ij} = 0$ otherwise.  We also set $g_{ii} = 0$. The neighborhood of the individual $i$ is the set given by $[ N_i := j \mid g_{ij}] = 1$. Therefore, $|N_i|$, the cardinality, which is $\sum_j g_{ij}$, is called the \textbf{degree} of $i$.\\
 
 We use the following quadratic utility function to capture the \emph{strategy complementarity}:
 \[
@@ -87,6 +81,15 @@ Then, in a small group, the utility of agent $i$' is given by:
 
 \section{Large Networks}
 \subsection{Large Network with Without Signaling}
+Now we move to the large network setting where there are multiple small groups. And in each small complete network, there is one node that represents the leader of the small group. Between the small groups, there are indirect connections among the small group leaders through a central node the represents higher level government.\\
+By this construction, we have three types of players with different degrees.  
+We assume $N = nk + 1$, where $n$ is the number of players in a small group, $k$ is the number of small groups.
+
+\begin{itemize}
+    \item Type 1: $(n-1)$ degrees (internal to small group)
+    \item Type 2: $k$ degrees (one connection to each small group leader)
+    \item Type 3: $n$ degrees (small group leader)
+\end{itemize}
 
 Incomplete information about $\beta$ without signals.
 
