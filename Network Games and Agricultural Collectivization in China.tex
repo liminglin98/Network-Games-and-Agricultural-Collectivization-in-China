@@ -26,7 +26,14 @@ This project uses the framework of network games to analyze incentive structures
 \end{abstract}
 
 \section{Introduction}
-Agricultural collectivization has been one of the most prominent and controversial policies in modern China. Previous studies (\cite{chinnDiligenceLazinessChinese1980, nitzanDiligenceLazinessChinese1987}) have started to use game theory to analyze the dynamics with simple prisoner's dilemma model and extensions to include assymetric and continuous strategy. This project aims to extend this framework by incorporating network games within the communes and also signaling games between commune leaders and their superiors. We hope this project can shed light into the interactions not just among households but also between local and central government, which is still a crucial topic for China's economic development today.
+
+Agricultural collectivization has been one of the most prominent and controversial policies in modern China. Existing studies (\cite{chinnDiligenceLazinessChinese1980, nitzanDiligenceLazinessChinese1987}) have used game-theoretic approaches such as the Prisoner’s Dilemma to model individual incentives and effort in collective settings. While insightful, these models often assume homogeneity and lack the structural complexity seen in real-world rural networks and governance.
+
+This project expands the analytical lens by incorporating \textbf{network games} to capture how local interdependencies shape collective effort and participation decisions. Households in a commune do not interact uniformly; instead, their decisions are influenced by their neighbors' behavior, visibility, and reputational spillovers. Network games offer a natural framework to reflect this decentralized but interconnected structure.
+
+Furthermore, to analyze the vertical interactions between local commune leaders and higher-level government officials—especially under asymmetric information and crisis conditions—we introduce \textbf{signaling games}. During natural disasters or in the context of procurement targets, local leaders often faced incentives to misreport productivity or overstate effort to secure promotions or avoid sanctions. Signaling games allow us to formally represent these strategic misalignments and the role of beliefs and incentives in shaping observed actions.
+
+By combining network and signaling models, we aim to offer a richer, more institutionally grounded understanding of how collectivization outcomes emerged—not just from household-level decisions, but also from the complex interplay between local coordination and hierarchical governance.
 \section{Base Model: Small Reciprocal Groups}
 \subsection{Complete Network Structure}
 We begin with a simple complete network representing a small production team in which each household observes and interacts with all others. All households are symmetric and must participate.
