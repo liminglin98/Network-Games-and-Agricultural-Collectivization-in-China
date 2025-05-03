@@ -238,19 +238,26 @@ u_i(x_i, x_{-i}) = \alpha_i x_i - \frac{1}{2}x_i^2 + x_i\left( \sum_j g_{ij} x_j
 
 By the first order condition, we get:
 \[
-x_i = \alpha_i + \sum_j g_{ij} x_j
+x_i^* = \alpha + \beta \sum_{j = 1} g_{ij} x_j^*
 \]
 
 We define:
 \[
-b(\beta) = (I - G)^{-1} \alpha(\beta)
+b(\beta, G) = \sum_{k=0}^{\infty} \beta^k G^k I_n = (I_n - \beta G)^{-1} l_n,
 \]
-where $G$ is the network adjacency matrix and $\alpha(\beta)$ is the $n \times 1$ vector of $\alpha_i$.
+where \( I_n \) is the identity matrix \( n \times n \) and \( l_n \) is the vector \( n \times 1 \) of 1.
 
 When agent $i$ receives signal $s_i = l$, his utility function satisfies:
+
+
 \[
-\mathbb{E}[u_i(x_i, x_{-i}) \mid s_i = l] = \alpha_i(l) x_i - \frac{1}{2}x_i^2 + x_i \left( \sum_j g_{ij} \mathbb{E}[x_j \mid s_i = l] \right)
+\mathbb{E}[x_i \mid s_i = l] = \alpha \, \mathbb{E}[x_i \mid s_i = l]
+-\frac{1}{2}\mathbb{E}[x_i^2|[s_i=l]]+ \sum_{j = 1}^n g_{ij} x_i\, \mathbb{E}[x_j \mid s_j = t]
 \]
+\[
+= \alpha \, x_i(l) - \frac{1}{2} x_i(l)^2 + \sum_{j=1}^{n} g_{ij} \, x_i(l) \, \mathbb{E}\left[ \beta \, x_j \mid s_j = l \right]
+\]
+
 
 Thus:
 \[
@@ -259,19 +266,24 @@ x_i = \alpha_i(l) + \sum_j g_{ij} \mathbb{E}[x_j \mid s_i = l]
 
 By the first order condition on $x_i(l)$, we get:
 \[
-x_i(l) = \alpha_i(l) + \sum_j g_{ij} \mathbb{E}[x_j(l)]
+\alpha -x_i^*(l) +\sum_{j=1}^{n} g_{ij} \mathbb{E}[\beta x_j^* \mid s_i = l]=0
 \]
 
-When agent $i$ receives signal $s_i \in \{L\}$, for each possible $j$ we have:
-
+When agent $i$ receives signal $s_i =l$, for each possible $j$ we have:
 \[
-\mathbb{E}(\beta_j \mid s_i = L) = \frac{1}{p_{\max}} \sum_{t} p_{m} \times \mathbb{P}(\{\beta = \beta_m\} \cap \{s_j = t\} \mid s_i = L)
+\mathbb{E}(\beta_j x_j \mid s_i = l) = \sum_{t=1}^{2} \\
+\sum_{m=1}^{2} \beta_{mx_j}(t) P\{\beta = \beta_m \cap s_j = l\}
 \]
+\[
+= \beta_{\max} \sum_{t=1}^{2} \left( P\left( \{\beta = \beta_m\} \cap \{s_j = t\} \mid s_i = l \right) \cdot \frac{\beta_m}{\beta_{\max}} \right)x_j(t)
+\]
+
+
 
 We define:
 
 \[
-p_{\max} = \max_{m} \sum_{t} \mathbb{P}(\beta = \beta_m \cap s_j = t \mid s_i = L)
+P_{\mu} = \sum_{j=1}^{2}P(\{\beta = \beta_m\} \cap\{ s_j = l\} \mid s_i = l)\frac{\beta_m}{\beta_{\max}}
 \]
 
 and
@@ -281,17 +293,17 @@ P_{ij} = \sum_{t} \mathbb{P}(\beta = \beta_m \cap s_j = t \mid s_i = L)
 \quad \text{with} \quad \frac{p_m}{p_{\max}}
 \]
 
-where $p_m$ is $\mathbb{P}(\beta = \beta_m)$ in our code.
+where $\beta_{max}$ =$\beta_h$ \  in our case.
 
-$P_{ij}$ represents individual $i$ receives signal $L$ and $j$ receives signal $t$.
+$P_{ll}$ represents individual $i$ receives signal $l$ and $j$ receives signal $l$.
 
 Therefore, we can rewrite the first order conditions as follows:
 
 \[
-\alpha - x_i + \mu_i + \sum_{j} \frac{p_{\max}}{s_i} p_{ij} (x_j - x_i) = 0
+\alpha - x_i ^*(l)+ \beta_{max}  \sum_{j=1}^{N}\ g_{ij} \sum_{t=1}^{2}p_{lt}*x_j(t)=0
 \]
 \[
-\alpha - x_i + \mu_i + p_{\max} \sum_{j} \frac{p_{ij}}{s_i} (x_j - x_i) \geq 0
+\alpha - x_i ^*(h)+ \beta_{max}  \sum_{j=1}^{N}\ g_{ij} \sum_{t=1}^{2}p_{ht}*x_j(t)=0
 \]
 
 which can be characterized by:
@@ -301,10 +313,10 @@ which can be characterized by:
 x_L \\
 x_H
 \end{pmatrix}
-= \left( -I_n + \frac{p_{\max}}{s_i} (\mathbb{I} \otimes G) \right)^{-1}
+= \left( -I_{2n} - \beta_{max} (\Gamma\otimes G) \right)^{-1}
 \begin{pmatrix}
-d_{iL} \\
-d_{iH}
+\alpha_{1n} \\
+\alpha_{2n}
 \end{pmatrix}
 \]
 
@@ -315,40 +327,41 @@ $\Gamma$ is given by:
 \[
 \Gamma = 
 \begin{pmatrix}
-P_{LL} & P_{LH} \\
-P_{HL} & P_{HH}
+P_{ll} & P_{lh} \\
+P_{hl} & P_{hh}
 \end{pmatrix}
 \]
 
-Now we are going to calculate information matrix $F$.
+Now we are going to calculate information matrix $\Gamma$.
 
 We have:
 
 \[
-\mathbb{P}(s_i = t, s_j = t) = \mathbb{P}(s_i = t \mid \beta = \beta_1) \mathbb{P}(s_j = t \mid \beta = \beta_1) \mathbb{P}(\beta = \beta_1) + \mathbb{P}(s_i = t \mid \beta = \beta_2) \mathbb{P}(s_j = t \mid \beta = \beta_2) \mathbb{P}(\beta = \beta_2)
+P(s_i = l) = P(s_i = l \mid \beta = \beta_l)P(\beta = \beta_l) + P(s_i = l \mid \beta = \beta_h) P(\beta = \beta_h)
 \]
-
 \[
-\mathbb{P}(s_i = t) = \mathbb{P}(s_i = t \mid \beta = \beta_1) \mathbb{P}(\beta = \beta_1) + \mathbb{P}(s_i = t \mid \beta = \beta_2) \mathbb{P}(\beta = \beta_2)
-\]
-
-\[
-\mathbb{P}(\beta = \beta_1) = q, \quad \mathbb{P}(\beta = \beta_2) = 1-q
+=q(1-p)+(1-q)p
 \]
 
 We have:
 
 \[
-\mathbb{P}(\beta = \beta_1 \mid s_i = t, s_j = t) = \frac{\mathbb{P}(s_i = t \cap s_j = t \cap \beta = \beta_1)}{\mathbb{P}(s_i = t \cap s_j = t)}
+P(s_i = h) = P(s_i = h \mid \beta = \beta_h)P(\beta = \beta_h) + P(s_i = h \mid \beta = \beta_l) P(\beta = \beta_l)
 \]
 
-\[
-= \frac{\mathbb{P}(s_i = t \mid \beta = \beta_1) \mathbb{P}(s_j = t \mid \beta = \beta_1) \mathbb{P}(\beta = \beta_1)}{\mathbb{P}(s_i = t \cap s_j = t)}
-\]
 
 \[
-= \frac{q(1-p)^2}{2(1-p)(1-(1-p)q)}
+= qp+(1-q)p
 \]
+
+
+
+\begin{align*}
+&P(\{ \beta = \beta_l\} \cap \{ s_i= l \} \mid \{ s_i = l \}) \\
+&= \frac{P(\{ s_j = l \} \cap \{ s_i = l \} \cap \{ \beta = \beta_l \})}{P(\{ s_i = l \})} \\
+&= \frac{P(\{ s_j = l \} \mid \{ \beta = \beta_l \}) \, P(\{ s_i = l \} \mid \{ \beta = \beta_l \}) \, P(\{ \beta = \beta_l\})}{P(\{ s_i = l \})} \\
+&= \frac{q^2(1-p)}{q(1-p)+ (1 - q)p}
+\end{align*}
 
 Similarly, we have
 \[
