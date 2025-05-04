@@ -10,6 +10,8 @@
 \usepackage{tikz}
 \usepackage{amssymb}
 \usepackage{float}
+\usepackage{booktabs}
+\usepackage{todonotes}
 \usetikzlibrary{trees}
 \titleformat{\section}{\normalfont\Large\bfseries}{\thesection.}{1em}{}
 \titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection.}{1em}{}
@@ -99,6 +101,12 @@ We assume $N = nk + 1$, where $n$ is the number of players in a small group, $k$
     \item Type 3: $n$ degrees (small group leader)
 \end{itemize}
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{large network1.png}
+  \caption{Example of a Large Network}
+  \label{fig:large-network}
+\end{figure}
 Incomplete information about $\beta$ without signals.
 
 We assume $\beta$ takes two possible values: $\beta = \{\beta_l,\beta_h\}$ where $\beta_l < \beta_h$. 
@@ -194,7 +202,49 @@ D_G =
 0 & 0 & \cdots & \lambda_n
 \end{pmatrix}
 \]
-
+Given the structure of the network, here is the $G$ matrix that represents the connections between players:
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{Default_Large_Network_Labeled.png}
+  \caption{Adjacency matrix $G$ for the default 16-player network}
+  \label{fig:G-matrix}
+\end{figure}
+So the 1st, 9th, and 12th rows are the leaders of the small groups, while the 16th row (the last row) is the central node that connects all the small group leaders. The rest are the members in the small groups.\\
+Then we calculate the eigenvalues of the $G$ matrix. (See in appendix) The largest eigenvalue is $\lambda_{\text{max}}(G)  \approx 4.1622$ and thus the upperbound for $E[\beta] = \frac{1}{\lambda_{max}(G)} \approx 0.24$.\\
+\subsubsection*{The Effects of $E[\beta]$ on Equilibrium Efforts}
+We want to see how the equilibrium effort $x^*$ changes with the value of $E[\beta]$. However, it is very diffucult to compute with the differentiation, so here we just plug in $E[\beta]=0.2,0.1$\\
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lcc}
+  \toprule
+  \textbf{Player Type} & \textbf{\( x^* \) when \( E[\beta] = 0.2 \)} & \textbf{\( x^* \) when \( E[\beta] = 0.045 \)} \\
+  \midrule
+  Small Group Leader       & 6.67 & 1.27 \\
+  Small Group Member       & 5.83 & 1.22 \\
+  Central Leader (Player 16) & 5.00 & 1.17 \\
+  \bottomrule
+  \end{tabular}
+  \caption{Equilibrium actions \( x^* \) under different values of \( \beta \)}
+  \label{tab:xstar-beta}
+  \end{table}
+The table above confirms that the equilibrium effort \( x^* \) is increasing in \( E[\beta] \). This is because the higher the value of \( E[\beta] \), the more likely the players are to believe that their neighbors are also putting in effort, which leads to a higher equilibrium effort.\\
+\subsubsection*{The Effects of $p$ on Equilibrium Efforts}
+More importantly, we want to investigate how the equilibrium effort \( x^* \) changes with the value of \( p \) which is the probability of being a high type player. Here we return to the original equation for $E[\beta]$ which equals $p\beta_h+(1-p)\beta_l$. We assume $\beta_l=0.03$ and $\beta_h=0.06$. (So the $p=0.5$ case will have the same $E[\beta]$ as above.)  Again, doing differentiation is complicated so we plug in several possible values for $p \in [0,1]$\\
+\begin{table}[H]
+  \centering
+  \begin{tabular}{lccc}
+  \toprule
+  \textbf{Player Type} & \textbf{\( x^* \) at \( p = 0.1 \)} & \textbf{\( x^* \) at \( p = 0.5 \)} & \textbf{\( x^* \) at \( p = 0.9 \)} \\
+  \midrule
+  Small Group Leader        & 1.19 & 1.27 & 1.37 \\
+  Small Group Member        & 1.15 & 1.22 & 1.30 \\
+  Central Government (Player 16) & 1.12 & 1.17 & 1.23 \\
+  \bottomrule
+  \end{tabular}
+  \caption{Equilibrium actions \( x^* \) as a function of \( p = \mathbb{P}(\beta = \beta_h) \)}
+  \label{tab:xstar-vs-p}
+  \end{table}
+The table above shows that the equilibrium effort \( x^* \) is increasing in \( p \) which is aligned with the strategic complementarity.\\  
 \subsection{Large Network with Signaling}
 We move to a large network setting where each household only knows its own number of neighbors (degree) and forms beliefs over others' behavior. The model assumes strategic complements or substitutes depending on the distribution mechanism and social context.
 
@@ -417,7 +467,97 @@ Phl & Phh
 \end{pmatrix}.
 \]
 
-
+For simplicity, we assume that $p=0.5$ and $\beta_l=0.03$, $\beta_h=0.06$ and $q = 0.6$ for now. Then the information matrix is given by:
+\[
+\Gamma =
+\begin{bmatrix}
+0.34 & 0.36 \\
+0.36 & 0.44
+\end{bmatrix}
+\]
+Then we can calculate the equilibrium effort $x^*$ using the following formulas:\\
+For low type players:
+\begin{align*}
+x_L^* &= \alpha * [a_{11} a_{11}^{-1} b(\lambda_1(\Gamma)\beta_{max})G\\
+&+ a_{12} a_{21}^{-1} b(\lambda_2(\Gamma)\beta_{max}G)\\
+&+ a_{11} a_{12}^{-1} b(\lambda_1(\Gamma)\beta_{max}G)\\
+&+ a_{12} a_{22}^{-1} b(\lambda_2(\Gamma)\beta_{max}G)] * 1\\
+\end{align*}
+For high type players:
+\begin{align*}
+x_H^* &= \alpha * [a_{21} a_{11}^{-1} b(\lambda_1(\Gamma)\beta_{max})G\\
+&+ a_{22} a_{21}^{-1} b(\lambda_2(\Gamma)\beta_{max}G)\\
+&+ a_{21} a_{12}^{-1} b(\lambda_1(\Gamma)\beta_{max}G)\\
+&+ a_{22} a_{22}^{-1} b(\lambda_2(\Gamma)\beta_{max}G)] * 1 \\
+\end{align*}
+Where $\alpha$ is the marginal return to efforts, $G$ is the network matrix (here it is the same as the one we used in the without-signaling model). In addition, $a_{ij}$ correponds to the elements in the eigenvectors of the information matrix $\Gamma$.\\
+$b$ is a function that captures the effects of the network structure on the equilibrium effort. It is given by:
+\[
+b(\lambda_i(\Gamma),\beta_{max},G) = (I - \lambda_i(\Gamma)\beta_{max}G)^{-1}
+\]
+  
+  Where $\lambda_i(\Gamma)$ is the $i$-th eigenvalue of the information matrix $\Gamma$.Besides, $\beta_{max}$ is given by:
+\[
+\beta_{max} < \frac{1}{\lambda_{max}(G)\lambda_{max}(\Gamma)}
+\] 
+  where $\lambda_{max}(G)$ is the largest eigenvalue of a complete network matrix $G_{complete}$ instead of the one we had for the default network \todo{why} and $\lambda_{max}(\Gamma)$ is the largest eigenvalue of the information matrix $\Gamma$.\\
+After calculation we had the upperbound for $\beta_{max}$ as $0.08848$ and thus we choose $0.045$ just to compare with the no-signaling case. \\
+\begin{table}[H]
+  \centering
+  \caption{Equilibrium Efforts in Default Network with Signaling}
+  \begin{tabular}{lccc}
+  \toprule
+   & \textbf{Group Leader} & \textbf{Group Member} & \textbf{Central Government} \\
+  \midrule
+  \(\beta = \beta_l\) & 1.1722 & 1.1416 & 1.1109 \\
+  \(\beta = \beta_h\) & 1.3723 & 1.3001 & 1.2343 \\
+  \bottomrule
+  \end{tabular}
+  \end{table}
+  We can see that high productivity type players have higher equilibrium efforts than low type players across roles. Comparing to the no-signaling case, it is clear that no-signaling equilibrium efforts lay between the two signaling equlibria. This can be attributed to \todo{why}.\\
+Also, we would like to compare this result with the one we may had in the complete network case. The results are given:
+  \begin{table}[H]
+    \centering
+    \caption{Equilibrium Efforts in Complete Network with Signaling}
+    \begin{tabular}{lccc}
+    \toprule
+     & \textbf{Members}\\
+    \midrule
+    \(\beta = \beta_l\) & 1.9601  \\
+    \(\beta = \beta_h\) & 2.1000  \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
+Since in the complete network, all players are connected to each other, there is no difference between the roles of players; that is, everyone has the same equilibrium effort. The results show that the equilibrium effort is much higher than the one in the default network, aligined with the intuition that peer effects are stronger in a complete network.\\
+\subsubsection*{The Effects of $q$ on Equilibrium Efforts}
+As we have investigated the effects of $p$ on equilibrium efforts in the previous section, we would like to turn to $q$ and analyze its impacts on the equilibrium efforts. Again, for the sake of simulation, we plug in $q = \{0.1, 0.5, ,0.9\}$.\\
+\begin{table}[H]
+  \centering
+  \caption{Equilibrium Actions \( x^* \) as a Function of Signal Precision \( q \) in the Default Network for Low Productivity Players}
+  \begin{tabular}{lccc}
+  \toprule
+  \textbf{Player Type} & \textbf{\( x^* \) at \( q = 0.1 \)} & \textbf{\( x^* \) at \( q = 0.5 \)} & \textbf{\( x^* \) at \( q = 0.9 \)} \\
+  \midrule
+  Group Leader       & 1.25 & 1.19 & 1.14 \\
+  Group Member       & 1.21 & 1.16 & 1.11 \\
+  Higher-Level Leader & 1.16 & 1.12 & 1.09 \\
+  \bottomrule
+  \end{tabular}
+  \end{table}
+  \begin{table}[H]
+    \centering
+    \caption{Equilibrium Actions \( x^* \) as a Function of Signal Precision \( q \) in the Default Network for High Productivity Players}
+    \begin{tabular}{lccc}
+    \toprule
+    \textbf{Player Type} & \textbf{\( x^* \) at \( q = 0.1 \)} & \textbf{\( x^* \) at \( q = 0.5 \)} & \textbf{\( x^* \) at \( q = 0.9 \)} \\
+    \midrule
+    Group Leader       & 1.14 & 1.19 & 1.25 \\
+    Group Member       & 1.11 & 1.16 & 1.21 \\
+    Higher-Level Leader & 1.09 & 1.12 & 1.16 \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
+ The results are actually symmetric: for low type players, as $q$ increases, they have lower equilibrium efforts because they are more assure that they are low type players. On the contrary, for high type players, as $q$ increases, they have contribute more because they are more assure that they are high type players.\\   
 \section{Natural Disaster Shocks}
 \subsection{Shocks in small network}
 \subsection{Shocks in large network}
